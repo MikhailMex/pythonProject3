@@ -1,16 +1,41 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import random
+from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtGui import QPainter, QColor, QPolygon
+import sys
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class MyWidget(QMainWindow):
+    def __init__(self):
+        super(MyWidget, self).__init__()
+        uic.loadUi('Ui.ui', self)
+        self.btn.clicked.connect(self.paint_okr)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    def paint_okr(self):
+        self.update()
+
+    def paintEvent(self, event):
+        a = random.randint(0, 255)
+        b = random.randint(0, 255)
+        c = random.randint(0, 255)
+        qp = QPainter()
+        qp.begin(self)
+        qp.setPen(QColor(a, b, c))
+        qp.setBrush(QColor(a, b ,c))
+        x = random.randint(10, 300)
+        y = random.randint(10, 300)
+        size = random.randint(20, 200)
+        qp.drawEllipse(x, y, size, size)
+
+
+def except_hook(cls, exception, traceback):
+    sys.__excepthook__(cls, exception, traceback)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    ex = MyWidget()
+    ex.show()
+    sys.excepthook = except_hook
+    sys.exit(app.exec())
